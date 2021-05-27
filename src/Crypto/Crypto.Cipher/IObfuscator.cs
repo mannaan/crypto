@@ -2,7 +2,7 @@
 {
     public interface IObfuscator
     {
-        string Encode(string text);
-        string Decode(string cipher);
+        string Encrypt(string text);
+        string Decrypt(string cipher);
     }
 }

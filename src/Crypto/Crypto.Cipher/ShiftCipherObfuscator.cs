@@ -17,7 +17,7 @@ namespace Crypto.Cipher
         /// </summary>
         /// <param name="text"></param>
         /// <returns>Encrypted text</returns>
-        public string Encode(string text)
+        public string Encrypt(string text)
         {
             return Shift(text, _shiftKey);
         }
@@ -26,7 +26,7 @@ namespace Crypto.Cipher
         /// </summary>
         /// <param name="cipher"></param>
         /// <returns>Decrypted text</returns>
-        public string Decode(string cipher)
+        public string Decrypt(string cipher)
         {
             return Shift(cipher,26 - _shiftKey);
         }
