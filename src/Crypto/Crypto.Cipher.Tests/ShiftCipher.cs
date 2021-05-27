@@ -16,7 +16,24 @@ namespace Crypto.Cipher.Tests
             var obfuscator = new ShiftCipherObfuscator(3);
             Assert.IsEmpty(obfuscator.Decode(string.Empty));
         }
-       
+        [TestCase("Abd9man", "Deg9pdq")]
+        [TestCase("09", "09")]
+        [TestCase("_Name", "_Qdph")]
+        [TestCase("Abd man", "Deg pdq")]
+        public void Encode_NonTextualInput_NonAlphabetsReturnedAsItIs(string input, string output)
+        {
+            var obfuscator = new ShiftCipherObfuscator(3);
+            Assert.AreEqual(output, obfuscator.Encode(input));
+        }
+        [TestCase("Deg9pdq", "Abd9man")]
+        [TestCase("09", "09")]
+        [TestCase("_Qdph", "_Name")]
+        [TestCase("Deg pdq", "Abd man")]
+        public void Decode_NonTextualInput_NonAlphabetsReturnedAsItIs(string input, string output)
+        {
+            var obfuscator = new ShiftCipherObfuscator(3);
+            Assert.AreEqual(output, obfuscator.Decode(input));
+        }
 
         [TestCase("HELLO", "KHOOR")]
         [TestCase("HeLLo", "KhOOr")]
@@ -60,6 +77,24 @@ namespace Crypto.Cipher.Tests
             var encodedString = obfuscator.Encode(input);
             var decodedString = obfuscator.Decode(encodedString);
             Assert.AreEqual(input, decodedString);
+        }
+        [TestCase("XYZ", "XYZ")]
+        [TestCase("ABDCDEF", "ABDCDEF")]
+        [TestCase("HOMeOffice", "HOMeOffice")]
+        [TestCase("LMNoAxz", "LMNoAxz")]
+        public void Encode_WhenShiftKeyIs0_DoesNotEncrypt(string input, string output)
+        {
+            var obfuscator = new ShiftCipherObfuscator(0);
+            Assert.AreEqual(output, obfuscator.Encode(input));
+        }
+        [TestCase("XYZ", "XYZ")]
+        [TestCase("ABDCDEF", "ABDCDEF")]
+        [TestCase("HOMeOffice", "HOMeOffice")]
+        [TestCase("LMNoAxz", "LMNoAxz")]
+        public void Decode_WhenShiftKeyIs0_ReturnInputValue(string input, string output)
+        {
+            var obfuscator = new ShiftCipherObfuscator(0);
+            Assert.AreEqual(output, obfuscator.Decode(input));
         }
     }
 }
