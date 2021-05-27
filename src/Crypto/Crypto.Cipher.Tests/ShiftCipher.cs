@@ -96,5 +96,23 @@ namespace Crypto.Cipher.Tests
             var obfuscator = new ShiftCipherObfuscator(0);
             Assert.AreEqual(output, obfuscator.Decode(input));
         }
+        [TestCase("KHOOR", "HELLO")]
+        [TestCase("khoor", "hello")]
+        [TestCase("KhOOr", "HeLLo")]
+        [TestCase("DEF", "ABC")]
+        public void Encode_WhenShiftKeyIsNegative_ReturnsBackwardShiftedCipher(string input, string output)
+        {
+            var obfuscator = new ShiftCipherObfuscator(-3);
+            Assert.AreEqual(output, obfuscator.Encode(input));
+        }
+        [TestCase("HELLO", "KHOOR")]
+        [TestCase("HeLLo", "KhOOr")]
+        [TestCase("hello", "khoor")]
+        [TestCase("ABC", "DEF")]
+        public void Decode_WhenShiftKeyIsNegative_ReturnsDecryptedText(string input, string output)
+        {
+            var obfuscator = new ShiftCipherObfuscator(-3);
+            Assert.AreEqual(output, obfuscator.Decode(input));
+        }
     }
 }

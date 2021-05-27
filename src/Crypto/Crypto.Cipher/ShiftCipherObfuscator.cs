@@ -1,14 +1,16 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace Crypto.Cipher
 {
     public class ShiftCipherObfuscator : IObfuscator
     {
-        private readonly uint _shiftKey;
+        private readonly int _shiftKey;
 
-        public ShiftCipherObfuscator(uint shiftKey)
+        public ShiftCipherObfuscator(int shiftKey)
         {
-            _shiftKey = shiftKey;
+            //convert to absolute key if a negative number provided
+            _shiftKey = shiftKey >= 0 ? shiftKey : 26 - Math.Abs(shiftKey);
         }
         /// <summary>
         /// Encrypts the given text using Caesar/Shift cipher technique
@@ -26,7 +28,7 @@ namespace Crypto.Cipher
         /// <returns>Decrypted text</returns>
         public string Decode(string cipher)
         {
-            return Shift(cipher, 26 - _shiftKey);
+            return Shift(cipher,26 - _shiftKey);
         }
         /// <summary>
         /// Shifts each character in text forward by "n"
@@ -34,7 +36,7 @@ namespace Crypto.Cipher
         /// <param name="text"></param>
         /// <param name="shiftBy"></param>
         /// <returns>A new string containing shifted characters</returns>
-        private string Shift(string text, uint shiftBy)
+        private string Shift(string text, int shiftBy)
         {
             if (string.IsNullOrEmpty(text))
                 return string.Empty;
@@ -65,7 +67,7 @@ namespace Crypto.Cipher
         /// <param name="shiftBy"></param>
         /// <param name="alphabetBaseLine"></param>
         /// <returns></returns>
-        private char Shift(char alphabet, uint shiftBy, char alphabetBaseLine)
+        private char Shift(char alphabet, int shiftBy, char alphabetBaseLine)
         {
             return (char)((alphabet + shiftBy - alphabetBaseLine) % 26 + alphabetBaseLine);
         }
